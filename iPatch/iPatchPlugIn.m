@@ -12,22 +12,37 @@
 #import "iPatchPlugIn.h"
 
 #define	kQCPlugIn_Name				@"iPatch"
-#define	kQCPlugIn_Description		@"iPatch description"
+#define	kQCPlugIn_Description		@"Converts a name to an iName"
 
 @implementation iPatchPlugIn
 
 // Here you need to declare the input / output properties as dynamic as Quartz Composer will handle their implementation
-//@dynamic inputFoo, outputBar;
+@dynamic inputString, outputString;
 
 + (NSDictionary *)attributes
 {
 	// Return a dictionary of attributes describing the plug-in (QCPlugInAttributeNameKey, QCPlugInAttributeDescriptionKey...).
-    return @{QCPlugInAttributeNameKey:kQCPlugIn_Name, QCPlugInAttributeDescriptionKey:kQCPlugIn_Description};
+    return @{
+             QCPlugInAttributeNameKey:kQCPlugIn_Name,
+             QCPlugInAttributeDescriptionKey:kQCPlugIn_Description
+    };
 }
 
 + (NSDictionary *)attributesForPropertyPortWithKey:(NSString *)key
 {
 	// Specify the optional attributes for property based ports (QCPortAttributeNameKey, QCPortAttributeDefaultValueKey...).
+    if ([key isEqualToString:@"inputString"])
+        return @{
+                 QCPortAttributeNameKey:@"Name",
+                 QCPortAttributeDefaultValueKey:@"Pod"
+        };
+    
+    if ([key isEqualToString:@"outputString"])
+        return @{
+                 QCPortAttributeNameKey:@"iName"
+        };
+    
+    
 	return nil;
 }
 
@@ -45,12 +60,11 @@
 
 - (instancetype)init
 {
-	self = [super init];
-	if (self) {
-		// Allocate any permanent resource required by the plug-in.
-	}
-	
-	return self;
+    if (!(self = [super init])) return self;
+    
+    // Allocate any permanent resource required by the plug-in.
+    
+    return self;
 }
 
 
@@ -82,6 +96,8 @@
 	CGLContextObj cgl_ctx = [context CGLContextObj];
 	*/
 	
+    self.outputString = [@"i" stringByAppendingString:self.inputString];
+    
 	return YES;
 }
 
