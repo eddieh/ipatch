@@ -1,0 +1,8 @@
+= iPatch a Quartz Composer PlugIn
+
+
+This is the iPatch PlugIn from the "Quartz Composer Custom Patch
+Programming Guide" document.
+
+This simple example takes strings and adds the prefix "i". Given the
+string Pod this plugin produces "iPod".
